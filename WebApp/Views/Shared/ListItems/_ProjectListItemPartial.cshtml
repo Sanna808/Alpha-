@@ -1,0 +1,56 @@
+﻿@model ProjectViewModel
+
+<div class="card project" data-project-id="@Model.Id">
+    <div class="card-header">
+        <div class="project-image">
+            <img src="@Model.ProjectImage" alt="project image">
+        </div>
+        <h6 class="project-name">@Model.ProjectName</h6>
+        <span class="client-name">@Model.ClientName</span>
+        <div id="account-container">
+            <button type="button" data-type="dropdown" data-target="#project-dropdown-@Model.Id" class="btn-action">
+                <i class="fa-solid fa-ellipsis"></i>
+            </button>
+            <div id="project-dropdown-@Model.Id" class="dropdown">
+                <div class="dropdown-body">
+                    <nav class="dropdown-actions">
+                        <button data-type="modal" data-target="#edit-project-modal" class="dropdown-action">
+                            <i class="fa-duotone fa-solid fa-pen-to-square"></i>
+                            <span>Edit</span>
+                        </button>
+                    </nav>
+                    <nav class="dropdown-actions">
+                        <button class="dropdown-action" href="#">
+                            <i class="fa-duotone fa-solid fa-user-plus" style="--fa-primary-opacity: 0.4; --fa-secondary-opacity: 1;"></i>
+                            <span>Add Member</span>
+                        </button>
+                    </nav>
+                    <div class="divider"></div>
+                    <nav class="dropdown-actions">
+                        <button class="dropdown-action delete">
+                            <i class="fa-duotone fa-solid fa-trash"></i>
+                            <span>Delete Project</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <p>@Html.Raw(Model.Description)</p>
+    </div>
+    <div class="card-footer">
+        <div class="time-badge normal">
+            <i class="fa-duotone fa-solid fa-clock"></i>
+            <span>1 week left</span>
+        </div>
+        <div class="members">
+            <div class="user-image">
+                <img src="/images/users/user-template-male-green.svg" alt="project template">
+            </div>
+            <div class="user-image">
+                <img src="/images/users/user-template-male-green.svg" alt="project template">
+            </div>
+        </div>
+    </div>
+</div>
