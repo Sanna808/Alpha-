@@ -262,6 +262,11 @@ h6 {
     font-weight: var(--font-semibold);
 }
 
+.field-validation-error {
+    font-size: 0.8em;
+    color: var(--alert-notification-error-text-color);
+}
+
 /* Layout Utilities */
 .center-screen {
     display: flex;

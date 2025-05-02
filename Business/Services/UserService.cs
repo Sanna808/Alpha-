@@ -38,12 +38,27 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
 
         try
         {
-            var userEntity = formData.MapTo<UserEntity>();
+            var userEntity = new UserEntity
+            {
+                UserName = formData.Email,
+                Email = formData.Email,
+                FirstName = formData.FirstName,
+                LastName = formData.LastName
+            };
 
-            var result = await _userManager.CreateAsync(userEntity, formData.Password);
-            return result.Succeeded
-                ? new UserResult { Succeeded = true, StatusCode = 200 }
-                : new UserResult { Succeeded = false, StatusCode = 500, Error = "Unable to create user." };
+            var identityResult = await _userManager.CreateAsync(userEntity, formData.Password);
+            if (!identityResult.Succeeded)
+            {
+                var errors = string.Join("; ", identityResult.Errors.Select(e => e.Description));
+                return new UserResult
+                {
+                    Succeeded = false,
+                    StatusCode = 400,
+                    Error = errors
+                };
+            }
+
+            return new UserResult { Succeeded = true, StatusCode = 201 };
         }
         catch (Exception ex) 
         {

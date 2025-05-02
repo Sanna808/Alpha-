@@ -17,21 +17,21 @@ public class SignUpViewModel
     public string LastName { get; set; } = null!;
 
     [Required]
-    [RegularExpression("^$", ErrorMessage = "Invalid email")]
+    [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email")]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email", Prompt = "Enter email")]
 
     public string Email { get; set; } = null!;
 
     [Required]
-    [RegularExpression("^$", ErrorMessage = "Invalid password")]
+    [RegularExpression(@"^(?=.*[a-ö])(?=.*[A-Ö])(?=.*\d)(?=.*[\W_]).{8,}$", ErrorMessage = "You must enter a strong password")]
     [DataType(DataType.Password)]
     [Display(Name = "Password", Prompt = "Enter password")]
 
     public string Password { get; set; } = null!;
 
     [Required]
-    [Compare(nameof(Password))]
+    [Compare(nameof(Password), ErrorMessage = "Your passwords do not match.")]
     [DataType(DataType.Password)]
     [Display(Name = "Confirm Password", Prompt = "Confirm password")]
 

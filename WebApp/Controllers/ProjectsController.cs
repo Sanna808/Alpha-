@@ -9,8 +9,6 @@ public class ProjectsController : Controller
 {
     [Route("admin/projects")]
 
-
-
     public IActionResult Index()
     {
         var viewModel = new ProjectsViewModel()

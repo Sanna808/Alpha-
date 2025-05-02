@@ -11,7 +11,7 @@
             <h1>@ViewData["Title"]</h1>
         </div>
         <div class="card-body">
-            <form method="post" asp-controller="SignUp" asp-actions="ExternalSignUp" novalidate>
+            <form method="post" asp-controller="SignUp" asp-action="ExternalSignUp" novalidate>
                 <button type="submit" class="btn-external">
                     <img src="/images/icons/google-icon.svg">
                     <span>Sign up with Google</span>
@@ -22,7 +22,9 @@
                 <span>or</span>
             </div>
 
-            <form method="post" asp-controller="SignUp" asp-actions="Index" novalidate>
+            <form method="post" asp-controller="SignUp" asp-action="Index" novalidate>
+                @Html.AntiForgeryToken()
+
                 <div class="form-group">
                     <label class="form-label" asp-for="FirstName"></label>
                     <input class="form-input" asp-for="FirstName" />
