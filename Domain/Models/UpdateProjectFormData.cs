@@ -20,5 +20,5 @@ public class UpdateProjectFormData
 
     public string UserId { get; set; } = null!;
 
-    public string StatusId { get; set; } = null!;
+    public int StatusId { get; set; }
 }

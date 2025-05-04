@@ -7,7 +7,8 @@
             <button class="btn-close" data-modal-close="add"></button>
         </div>
         <div class="card-body">
-            <form asp-controller="" asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
+            <form asp-controller="Projects" asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <div id="upload-trigger" class="image-preview-container project-image">
                         <img id="image-preview" src="#" class="hide">
@@ -19,28 +20,22 @@
                     <img id="image-preview" src="#" class="hide">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Project Name</label>
-                    <input class="form-input" type="text" placeholder="Project Name">
+                    <label class="form-label" asp-for="ProjectName"></label>
+                    <input class="form-input" asp-for="ProjectName">
+                    <span asp-validation-for="ProjectName"></span>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Client Name</label>
-                    <div class="forms-select" data-placeholder="Choose a client">
-                        <button type="button" class="form-select-trigger">
-                            <span class="form-select-text"></span>
-                        </button>
-                        <ul class="form-select-options">
-                            @foreach(var option in Model.Clients) 
-                            {
-                                <li class="form-select-option" data-value="@option.Value">@option.Text</li>
-                            }
-                        </ul>
-                        <input type="hidden" name="client-select-value" />
-                    </div>
+                    <label asp-for="ClientId"></label>
+                    <select asp-for="ClientId" asp-items="Model.Clients" class="forms-select">
+                        <option value="">Choose a Client
+                        </option>
+                    </select>
+                    <span asp-validation-for="ClientId"></span>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Description</label>
+                    <label class="form-label" asp-for="Description"></label>
                     <div class="wysiwyg">
-                        <textarea id="add-project-description"></textarea>
+                        <textarea id="add-project-description" asp-for="Description"></textarea>
                         <div id="add-project-description-wysiwyg-editor" class="wysiwyg-editor"></div>
                         <div id="add-project-description-wysiwyg-toolbar" class="wysiwyg-toolbar">
                             <span class="ql-formats">
@@ -65,35 +60,37 @@
                 </div>
                 <div class="form-horizontal-group">
                     <div class="form-group">
-                        <label class="form-label">Start Date</label>
-                        <input class="form-input" type="date">
+                        <label asp-for="StartDate"></label>
+                        <input asp-for="StartDate" type="date" class="form-input" />
+                        <span asp-validation-for="StartDate"></span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">End Date</label>
-                        <input class="form-input" type="date">
+                        <label asp-for="EndDate"></label>
+                        <input asp-for="EndDate" type="date" class="form-input" />
+                        <span asp-validation-for="EndDate"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Members</label>
-                    <div class="forms-select" data-placeholder="Choose a member">
-                        <button type="button" class="form-select-trigger">
-                            <span class="form-select-text"></span>
-                        </button>
-                        <ul class="form-select-options">
-                            @foreach (var option in Model.Members)
-                            {
-                                <li class="form-select-option" data-value="@option.Value">@option.Text</li>
-                            }
-                        </ul>
-                        <input type="hidden" name="member-select-value" />
-                    </div>
+                    <label asp-for="MemberId"></label>
+                    <select asp-for="MemberId" asp-items="Model.Members" class="forms-select">
+                        <option value="">Choose a Member</option>
+                    </select>
+                    <span asp-validation-for="MemberId"></span>
                 </div>
                 <div class="form-group budget">
-                    <label class="form-label">Budget</label>
+                    <label class="form-label" asp-for="Budget"></label>
                     <div class="form-input-extended">
                         <i class="fa-duotone fa-solid fa-dollar-sign"></i>
-                        <input class="form-input" type="text" placeholder="0">
+                        <input class="form-input" asp-for="Budget">
+                        <span asp-validation-for="Budget"></span>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StatusId"></label>
+                    <select asp-for="StatusId" asp-items="Model.Statuses" class="forms-select">
+                        <option value="">Choose a Status</option>
+                    </select>
+                    <span asp-validation-for="StatusId"></span>
                 </div>
                 <button type="submit" class="btn btn-blue">Create</button>
             </form>

@@ -2,7 +2,7 @@
 
 public class ProjectViewModel
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = null!;
 
     public string ProjectImage { get; set; } = null!;
 
@@ -12,7 +12,4 @@ public class ProjectViewModel
 
     public string Description { get; set; } = null!;
 
-    public string TimeLeft { get; set; } = null!;
-
-    public IEnumerable<string> Members { get; set; } = [];
 }

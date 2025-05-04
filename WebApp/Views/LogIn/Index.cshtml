@@ -11,7 +11,7 @@
             <h1>@ViewData["Title"]</h1>
         </div>
         <div class="card-body">
-            <form method="post" asp-controller="Login" asp-actions="ExternalLogin" novalidate>
+            <form method="post" asp-controller="Login" asp-action="ExternalLogin" novalidate>
                 <button type="submit" class="btn-external">
                     <img src="/images/icons/google-icon.svg">
                     <span>Log in with Google</span>
@@ -22,7 +22,9 @@
                 <span>or</span>
             </div>
 
-            <form method="post" asp-controller="Login" asp-actions="Index" novalidate>
+            <form method="post" asp-controller="Login" asp-action="Index" novalidate>
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ReturnUrl" />
 
                 <div class="form-group">
                     <label class="form-label" asp-for="Email"></label>
@@ -36,10 +38,10 @@
                 </div>
                 <div class="form-checkbox-group">
                     <label class="form-checkbox">
-                        <input asp-for="RemeberMe" class="form-checkbox-input" />
+                        <input asp-for="RememberMe" class="form-checkbox-input" />
                         <span class="form-checkbox-box"></span>
                     </label>
-                    <label asp-for="RemeberMe" class="form-label">Remeber me</label>
+                    <label asp-for="RememberMe" class="form-label"></label>
                 </div>
                 <button type="submit" class="btn btn-blue">Log In</button>
             </form>

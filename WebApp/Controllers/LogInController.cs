@@ -1,39 +1,58 @@
 ﻿using Business.Services;
-using Domain.Extentions;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 
-namespace WebApp.Controllers;
-
-public class LogInController(IAuthService authService) : Controller
+namespace WebApp.Controllers
 {
-    private readonly IAuthService _authService = authService;
-
-    public IActionResult Index(string returnUrl = "~/")
+    public class LogInController : Controller
     {
-        ViewBag.ReturnUrl = returnUrl;
-        return View();
-    }
+        private readonly IAuthService _authService;
 
-    [HttpPost]
-
-    public async Task<IActionResult> Index(LoginViewModel model, string returnUrl = "~/")
-    {
-        ViewBag.ErrorMessage = null;
-        ViewBag.ReturnUrl = returnUrl;
-
-        if (!ModelState.IsValid)
-            return View(model);
-
-        var signUpFormData = model.MapTo<SignUpFormData>();
-        var result = await _authService.SignUpAsync(signUpFormData);
-        if (result.Succeeded)
+        public LogInController(IAuthService authService)
         {
-            return LocalRedirect(returnUrl);
+            _authService = authService;
         }
 
-        ViewBag.ErrorMessage = result.Error;
-        return View(model);
+        [HttpGet]
+        public IActionResult Index(string returnUrl = "/")
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(LoginViewModel model)
+        {
+            ViewBag.ReturnUrl = model.ReturnUrl;
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var formData = new SignInFormData
+            {
+                Email = model.Email,
+                Password = model.Password,
+                IsPersistent = model.RememberMe
+            };
+
+            var result = await _authService.SignInAsync(formData);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+
+            ViewBag.ErrorMessage = result.Error;
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _authService.SignOutAsync();
+            return RedirectToAction("Index", "LogIn");
+        }
     }
 }

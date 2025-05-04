@@ -24,24 +24,4 @@ public static class MappExtensions
         }
         return destination;
     }
-
-    //public static void MapTo<TSource, TDestination>(this TSource source, TDestination destination)
-    //{
-    //    ArgumentNullException.ThrowIfNull(source, nameof(source));
-    //    ArgumentNullException.ThrowIfNull(destination, nameof(destination));
-
-    //    var sourceProperties = typeof(TSource).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-    //    var destinationProperties = typeof(TDestination).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-    //    foreach (var destProp in destinationProperties)
-    //    {
-    //        var srcProp = sourceProperties.FirstOrDefault(x =>
-    //            x.Name == destProp.Name && x.PropertyType == destProp.PropertyType);
-    //        if (srcProp != null && destProp.CanWrite)
-    //        {
-    //            var value = srcProp.GetValue(source);
-    //            destProp.SetValue(destination, value);
-    //        }
-    //    }
-    //}
 }

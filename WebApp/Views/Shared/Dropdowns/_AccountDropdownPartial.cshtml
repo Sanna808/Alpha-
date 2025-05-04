@@ -1,4 +1,18 @@
-﻿<div id="account-container">
+﻿@using Data.Enteties
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserEntity> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userPrincipal = HttpContextAccessor.HttpContext!.User;
+    var user = await UserManager.GetUserAsync(userPrincipal);
+    var fullName = user is null
+        ? "Guest"
+        : $"{user.FirstName} {user.LastName}";
+}
+
+
+<div id="account-container">
     <button type="button" data-type="dropdown" data-target="#account-dropdown" class="btn-account">
         <img src="/images/users/user-template-male-green.svg" alt="template avatar">
     </button>
@@ -6,7 +20,7 @@
         <div class="dropdown-header">
             <div class="account-name">
                 <img src="/images/users/user-template-male-green.svg" alt="template avatar">
-                <span>Hans Mattin-Lassei</span>
+                <span>@fullName</span>
             </div>
         </div>
         <div class="dropdown-body">
@@ -25,12 +39,13 @@
                 </nav>
             </div>
             <div class="divider"></div>
-            <nav class="dropdown-actions">
-                <a class="dropdown-action" href="#">
+            <form asp-controller="LogIn" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="dropdown-action">
                     <i class="fa-duotone fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span>
-                </a>
-            </nav>
+                </button>
+            </form>
         </div>
     </div>
 </div>

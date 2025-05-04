@@ -98,7 +98,87 @@
                 modal?.classList.remove('modal-show');
             });
         });
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.btn-edit');
+            if (!btn) return;
+
+            const projectId = btn.closest('.card.project').dataset.projectId;
+            if (!projectId) return;
+
+            const resp = await fetch(`/admin/projects/${projectId}`);
+            if (!resp.ok) {
+                console.error('Project data not found', resp.status);
+                return;
+            }
+            const data = await resp.json();
+
+            const modal = document.querySelector('#edit-project-modal');
+            modal.querySelector('input[name="Id"]').value = data.id;
+            modal.querySelector('input[name="ProjectName"]').value = data.projectName;
+            modal.querySelector('textarea[name="Description"]').value = data.description || '';
+            modal.querySelector('input[name="StartDate"]').value = data.startDate?.split('T')[0] || '';
+            modal.querySelector('input[name="EndDate"]').value = data.endDate?.split('T')[0] || '';
+            modal.querySelector('input[name="Budget"]').value = data.budget || '';
+
+            const buildOptions = (items, selectedValue) =>
+                items.map(i =>
+                    `<option value="${i.value}" ${i.value === selectedValue ? 'selected' : ''}>${i.text}</option>`
+                ).join('');
+
+            modal.querySelector('select[name="ClientId"]').innerHTML =
+                `<option value="">Choose a Client</option>` +
+                buildOptions(data.clients, data.clientId);
+
+            modal.querySelector('select[name="MemberId"]').innerHTML =
+                `<option value="">Choose a Member</option>` +
+                buildOptions(data.members, data.memberId);
+
+            modal.querySelector('select[name="StatusId"]').innerHTML =
+                `<option value="">Choose a Status</option>` +
+                buildOptions(data.statuses, data.statusId);
+
+            modal.classList.add('modal-show');
+        });
+
+        document.addEventListener('click', async e => {
+            const btn = e.target.closest('[data-type="delete"]');
+            if (!btn) return;
+
+            if (!confirm('Are you sure you want to delete this project?'))
+                return;
+
+            const projectId = btn.dataset.projectId;
+            try {
+                const resp = await fetch(`/admin/projects/delete/${projectId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document
+                            .querySelector('input[name="__RequestVerificationToken"]')
+                            .value
+                    }
+                });
+                if (!resp.ok) throw new Error(`Status ${resp.status}`);
+
+                btn.closest('.card.project').remove();
+            } catch (err) {
+                console.error('Project was not deleted', err);
+                alert('Project was not deleted');
+            }
+        });
     }
+
+    function clearErrorMessages(form) {
+        form.querySelectorAll('[data-val="true"]').forEach(input => {
+            input.classList.remove('input.validation-error')
+        })
+
+        form.querySelectorAll('[data-valmsg-for]').forEach(span => {
+            span.innerText = ''
+            span.classList.remove('field-validation-error')
+        })
+    }
+
 
 
     function initCustomSelects() {
@@ -133,4 +213,5 @@
     }
 
 })();
+
 

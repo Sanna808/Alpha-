@@ -638,9 +638,15 @@ form {
     position: relative;
     font-family: var(--font-standard);
     width: 100%;
+    min-height: 40px;
+    background-color: var(--form-input-background-color);
+    border: 1px solid var(--form-input-border-color);
+    padding: 0.5rem 0.7rem;
+
+    border-radius: var(--border-radius);
 }
 
-    .forms-select.has-placeholder .form-select-trigger {
+    .forms-select.has-placeholder {
         color: var(--form-input-placeholder-color);
         font-size: 0.9em;
     }
@@ -1185,7 +1191,7 @@ input:checked + .slider {
 /* Sections: Add/Edit Project Modals */
 #add-project-modal .card,
 #edit-project-modal .card {
-    width: 550px;
+    width: 600px;
 }
 
 #add-project-modal .btn,
@@ -1283,6 +1289,16 @@ input:checked + .slider {
         width: 100%;
         min-width: 350px;
     }
+    #account-container .dropdown .dropdown-action {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        border: none;
+        background-color: var(--transparent);
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
 
     #account-container .account-name {
         color: var(--account-name-text-color);
@@ -1363,6 +1379,25 @@ input:checked + .slider {
     width: 220px;
     z-index: 1;
 }
+
+    #projects .project-list .dropdown .dropdown-actions .dropdown-action {
+        transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+        font-size: 1em;
+        font-family: var(--font-standard);
+        text-decoration: none;
+        color: var(--navlink-text-color);
+        background-color: var(--navlink-background-color);
+        border-radius: 1rem;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+        #projects .project-list .dropdown .dropdown-actions .dropdown-action:hover {
+            color: var(--navlink-text-hover-color);
+            background-color: var(--navlink-background-hover-color);
+        }
 
     #projects .project-list .dropdown button {
         border: var(--transparent);
