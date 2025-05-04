@@ -1283,6 +1283,7 @@ input:checked + .slider {
 /* Sections: Account Container */
 #account-container {
     position: relative;
+    z-index: 999;
 }
 
     #account-container .dropdown {
